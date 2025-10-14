@@ -9,3 +9,11 @@ MyServer:
       DBNAME: to-do-list
       USER: postgres
       PASS: P@ssw0rd()SQL
+
+MyConfig:
+  Keycloak:
+    CLIENTID: to-do-list
+    CLIENTSECRET: z4USgp858FZVTGmRvKHO1SXXVj84nLR5
+    ISSUERURI: http://localhost:8080/realms/Project
+
+

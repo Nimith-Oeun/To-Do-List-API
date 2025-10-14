@@ -1,5 +1,7 @@
 package com.personal.todolistapi.security;
 
+import com.personal.todolistapi.auth.JwtConverter;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
@@ -8,8 +10,12 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 
+
 @Configuration
+@RequiredArgsConstructor
 public class SecurityConfig {
+
+    private final JwtConverter jwtConverter;
 
     @Bean
     public SecurityFilterChain config(HttpSecurity http)throws Exception {
@@ -28,11 +34,11 @@ public class SecurityConfig {
                         .permitAll()
                         .anyRequest()
                         .authenticated()
+                )
+                .oauth2Login(Customizer.withDefaults())
+                .oauth2ResourceServer((oauth2) -> oauth2
+                        .jwt(jwt -> jwt.jwtAuthenticationConverter(jwtConverter))
                 );
-//                .oauth2Login(Customizer.withDefaults())
-//                .oauth2ResourceServer(oauth2 -> oauth2
-//                        .jwt(Customizer.withDefaults())
-//                );
 
         return http.build();
     }

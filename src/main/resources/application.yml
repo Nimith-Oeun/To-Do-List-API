@@ -25,3 +25,30 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
         format_sql: true
+
+
+  # Keycloak configuration
+  security:
+    oauth2:
+      client:
+        registration:
+          keycloak:
+            client-id: ${MyConfig.Keycloak.CLIENTID}
+            client-secret: ${MyConfig.Keycloak.CLIENTSECRET}
+            provider: keycloak
+            scope:
+              - openid
+              - profile
+              - email
+        provider:
+          keycloak:
+            issuer-uri: ${MyConfig.Keycloak.ISSUERURI}
+      resourceserver:
+        jwt:
+          issuer-uri: ${MyConfig.Keycloak.ISSUERURI}
+
+  jwt:
+    auth:
+      converter:
+        resource-id: ${MyConfig.Keycloak.CLIENTID}
+        principle-attribute: preferred_username
