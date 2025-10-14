@@ -1,0 +1,11 @@
+#===================================================================
+# Spring Boot application configuration for qa environment
+#===================================================================
+
+# Database configuration
+MyServer:
+  Database:
+    HOST: localhost:5432
+    DBNAME: todolistdb
+    USER: postgres
+    PASS: admin123

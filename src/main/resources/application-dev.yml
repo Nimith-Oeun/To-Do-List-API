@@ -1,0 +1,11 @@
+#===================================================================
+# Spring Boot application configuration for development environment
+#===================================================================
+
+  # Database configuration
+MyServer:
+    Database:
+      HOST: localhost:5432
+      DBNAME: to-do-list
+      USER: postgres
+      PASS: P@ssw0rd()SQL
