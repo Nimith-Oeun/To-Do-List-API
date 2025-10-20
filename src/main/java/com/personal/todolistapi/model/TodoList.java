@@ -21,13 +21,9 @@ public class TodoList extends AuditEntity{
 
     private String color;
 
-    @OneToMany(
-            mappedBy = "todoList",
-            cascade = CascadeType.ALL
-    )
-    private List<Background> background = new ArrayList<>();
+    private String uuid;
 
-    private String UUID;
+    private Integer background ;
 
     @OneToMany(
             mappedBy = "todoList",

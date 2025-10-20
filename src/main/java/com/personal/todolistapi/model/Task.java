@@ -32,7 +32,7 @@ public class Task extends AuditEntity{
     @Enumerated(EnumType.STRING)
     private Status status;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "todo_list_id")
     private TodoList todoList;
 }

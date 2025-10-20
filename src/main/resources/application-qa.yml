@@ -1,11 +1,16 @@
 #===================================================================
-# Spring Boot application configuration for qa environment
+# Spring Boot application configuration for development environment
 #===================================================================
 
 # Database configuration
 MyServer:
   Database:
     HOST: localhost:5432
-    DBNAME: todolistdb
+    DBNAME: to-do-list
     USER: postgres
-    PASS: admin123
+    PASS: P@ssw0rd()SQL
+MyConfig:
+  Keycloak:
+    CLIENTID: github-nimith-cc
+    CLIENTSECRET: al8bR60BD5DpEAtTrnmCE3VPi0CHQBm7
+    ISSUERURI: http://localhost:8080/realms/Nimith

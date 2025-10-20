@@ -1,6 +1,10 @@
 package com.personal.todolistapi.dto.respones;
 
+import com.personal.todolistapi.model.Background;
+import com.personal.todolistapi.model.Task;
 import lombok.Data;
+
+import java.util.List;
 
 @Data
 public class TodolistRespones {
@@ -17,5 +21,5 @@ public class TodolistRespones {
 
     private String UUID;
 
-    private Integer tasks;
+    private List<Task> tasks;
 }

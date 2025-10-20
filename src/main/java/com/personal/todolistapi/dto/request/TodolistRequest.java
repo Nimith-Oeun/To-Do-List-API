@@ -1,7 +1,11 @@
 package com.personal.todolistapi.dto.request;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.personal.todolistapi.model.Background;
+import com.personal.todolistapi.model.Task;
 import lombok.Data;
+
+import java.util.List;
 
 @Data
 public class TodolistRequest {
@@ -18,9 +22,6 @@ public class TodolistRequest {
     @JsonProperty("background")
     private Integer background;
 
-    @JsonProperty("User_UUID")
-    private String UUID;
-
     @JsonProperty("tasks")
-    private Integer tasks;
+    private List<Task> tasks;
 }

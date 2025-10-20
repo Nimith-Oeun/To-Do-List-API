@@ -1,5 +1,6 @@
 package com.personal.todolistapi.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -27,7 +28,6 @@ public class Background {
     @Column(name = "Part_Upload")
     private String partUpload;
 
-    @ManyToOne
-    @JoinColumn(name = "todo_list_id")
+    @ManyToOne(fetch = FetchType.LAZY)
     private TodoList todoList;
 }
