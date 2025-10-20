@@ -23,7 +23,8 @@ public class TodoList extends AuditEntity{
 
     private String uuid;
 
-    private Integer background ;
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Background background ;
 
     @OneToMany(
             mappedBy = "todoList",
