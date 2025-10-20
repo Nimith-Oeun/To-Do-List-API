@@ -1,6 +1,6 @@
 package com.personal.todolistapi.security;
 
-import com.personal.todolistapi.auth.JwtConverter;
+import com.personal.todolistapi.jwt.JwtConverter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

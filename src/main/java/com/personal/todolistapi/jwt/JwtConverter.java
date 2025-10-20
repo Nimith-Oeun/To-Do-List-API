@@ -1,4 +1,4 @@
-package com.personal.todolistapi.auth;
+package com.personal.todolistapi.jwt;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.convert.converter.Converter;
