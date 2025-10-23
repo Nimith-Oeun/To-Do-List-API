@@ -2,6 +2,7 @@ package com.personal.todolistapi.service.impl;
 
 import com.personal.todolistapi.dto.request.TaskRequest;
 import com.personal.todolistapi.dto.respones.TaskResones;
+import com.personal.todolistapi.exceptions.ResourNotFound;
 import com.personal.todolistapi.mapper.TaskMapper;
 import com.personal.todolistapi.model.Task;
 import com.personal.todolistapi.repository.TaskRepository;
@@ -29,6 +30,7 @@ public class TaskServiceIml implements TaskService {
 
     @Override
     public Task getById(Long id) {
-        return null;
+        return taskRepository.findById(id)
+                .orElseThrow(()-> new ResourNotFound("Task not found with id: " + id));
     }
 }

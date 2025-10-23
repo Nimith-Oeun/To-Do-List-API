@@ -9,6 +9,7 @@ import org.mapstruct.factory.Mappers;
 
 @Mapper(componentModel = "spring")
 public interface TaskMapper {
+
     TaskMapper INSTANCE = Mappers.getMapper(TaskMapper.class);
 
 

@@ -4,6 +4,7 @@ import com.personal.todolistapi.exceptions.CustomMaxUploadSizeExceededException;
 import com.personal.todolistapi.exceptions.SuccessRespone;
 import com.personal.todolistapi.model.Background;
 import com.personal.todolistapi.service.BackroundServervice;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.Resource;
@@ -27,7 +28,7 @@ public class BackgroundController {
 
     @PreAuthorize( "hasRole('role_admin')")
     @PostMapping(path = "/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<?> uploadBackground(@RequestParam("file") MultipartFile file) {
+    public ResponseEntity<?> uploadBackground(@RequestParam("file") MultipartFile file , HttpServletRequest httpServletRequest) {
 
         try{
 
@@ -39,7 +40,12 @@ public class BackgroundController {
             }
 
             backroundServervice.uploadBackground(file);
-            return ResponseEntity.ok(SuccessRespone.success("File uploaded successfully"));
+            return ResponseEntity.ok(
+                    SuccessRespone.success(
+                            "File uploaded successfully" ,
+                            httpServletRequest
+                    )
+            );
 
         }catch (Exception e){
 
@@ -56,13 +62,18 @@ public class BackgroundController {
 
     @PreAuthorize( "hasRole('role_user') or hasRole('role_admin')")
     @GetMapping("/getAllBackgrounds")
-    public ResponseEntity<List<Background>> getAllBackgrounds() {
-        return ResponseEntity.ok(backroundServervice.getAllfile());
+    public ResponseEntity<?> getAllBackgrounds( HttpServletRequest httpServletRequest) {
+        return ResponseEntity.ok(
+                SuccessRespone.success(
+                        backroundServervice.getAllfile() ,
+                        httpServletRequest
+                )
+        );
     }
 
     @PreAuthorize( "hasRole('role_user') or hasRole('role_admin')")
-    @GetMapping("/view")
-    public ResponseEntity<?> viewPhoto(@PathVariable("id") Long id) {
+    @GetMapping("/view/{id}")
+    public ResponseEntity<?> viewPhoto(@PathVariable("id") Long id ) {
         return backroundServervice.viewBackground(id);
     }
 

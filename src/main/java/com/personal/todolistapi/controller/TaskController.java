@@ -4,6 +4,7 @@ import com.personal.todolistapi.dto.request.TaskRequest;
 import com.personal.todolistapi.exceptions.GlobalException;
 import com.personal.todolistapi.exceptions.SuccessRespone;
 import com.personal.todolistapi.service.TaskService;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -21,10 +22,11 @@ public class TaskController {
 
     @PreAuthorize("hasRole('role_user')")
     @PostMapping("/create")
-    public ResponseEntity<?> createTask(@RequestBody TaskRequest request) {
+    public ResponseEntity<?> createTask(@RequestBody TaskRequest request , HttpServletRequest httpServletRequest) {
         return ResponseEntity.ok(
                 SuccessRespone.success(
-                        taskService.create(request)
+                        taskService.create(request),
+                        httpServletRequest
                 ));
     }
 }

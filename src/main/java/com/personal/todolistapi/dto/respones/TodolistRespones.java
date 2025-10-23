@@ -21,5 +21,5 @@ public class TodolistRespones {
 
     private String UUID;
 
-    private List<Task> tasks;
+    private List<TaskResones> tasks;
 }

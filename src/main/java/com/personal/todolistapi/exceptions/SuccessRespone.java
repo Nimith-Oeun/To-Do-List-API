@@ -1,15 +1,19 @@
 package com.personal.todolistapi.exceptions;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.servlet.http.HttpServletRequest;
 
 import java.time.LocalDateTime;
 
 public class SuccessRespone {
 
-    public static   ExceptionResponeDTO buildResponse(String errorCode , String status ,
-                                                     String message , Object responeData
-                                                      ,boolean success
-                                                      ){
+    public static ExceptionResponeDTO buildResponse(
+            String errorCode,
+            String status,
+            String message,
+            Object responeData,
+            boolean success,
+            HttpServletRequest request
+    ) {
         return ExceptionResponeDTO.builder()
                 .success(success)
                 .errorCode(errorCode)
@@ -17,18 +21,21 @@ public class SuccessRespone {
                 .message(message)
                 .timestamp(LocalDateTime.now())
                 .responeData(responeData)
+                .path(request.getRequestURI()) // ✅ correct method
                 .build();
     }
 
-    public static ExceptionResponeDTO success(Object object){
+    public static ExceptionResponeDTO success(
+            Object responeData,
+            HttpServletRequest request
+    ) {
         return buildResponse(
                 "200",
                 "Ok",
                 "Success",
-                object
-                ,true
-
-
+                responeData,
+                true,
+                request
         );
     }
 }

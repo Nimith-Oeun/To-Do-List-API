@@ -20,7 +20,7 @@ public class TodolistRequest {
     private String color;
 
     @JsonProperty("background")
-    private Integer background;
+    private Integer backgroundId;
 
     @JsonProperty("tasks")
     private List<Task> tasks;

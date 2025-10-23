@@ -39,19 +39,19 @@ public class TodolistImpl implements TodolistService {
         TodoList mappedTodoList = todoListMapper.mapToTodoList(request);
         mappedTodoList.setUuid(userUuid);
 
+        // Ensure child relationship consistency
+        if (mappedTodoList.getTasks() != null) {
+            mappedTodoList.getTasks().forEach(task ->
+                    task.setTodoList(mappedTodoList)
+            );
+        }
+
         TodoList savedTodoList = todoListRepository.save(mappedTodoList);
 
-        List<Task> taskList = request.getTasks().stream()
-                .map(taskrq -> {
-                    Task task = new Task();
-                    task.setTitle(taskrq.getTitle());
-                    return task;
-                })
-                .toList();
-        taskRepository.saveAll(taskList);
+        TodolistRespones respones = todoListMapper.mapToTodolistRespones(savedTodoList);
+        respones.setUUID(userUuid);
 
-
-        return todoListMapper.mapToTodolistRespones(savedTodoList);
+        return respones;
     }
 
     @Override
