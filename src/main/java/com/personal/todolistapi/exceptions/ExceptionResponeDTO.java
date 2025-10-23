@@ -17,7 +17,7 @@ public class ExceptionResponeDTO {
     private String status;
     private String message;
     private LocalDateTime timestamp;
-    private Object responeData;
+    private Object data;
     private String path;
     private boolean success = false;
 }

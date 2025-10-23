@@ -10,7 +10,7 @@ public class SuccessRespone {
             String errorCode,
             String status,
             String message,
-            Object responeData,
+            Object data,
             boolean success,
             HttpServletRequest request
     ) {
@@ -20,20 +20,20 @@ public class SuccessRespone {
                 .status(status)
                 .message(message)
                 .timestamp(LocalDateTime.now())
-                .responeData(responeData)
+                .data(data)
                 .path(request.getRequestURI()) // ✅ correct method
                 .build();
     }
 
     public static ExceptionResponeDTO success(
-            Object responeData,
+            Object data,
             HttpServletRequest request
     ) {
         return buildResponse(
                 "200",
                 "Ok",
                 "Success",
-                responeData,
+                data,
                 true,
                 request
         );

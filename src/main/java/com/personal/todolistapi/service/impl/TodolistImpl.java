@@ -59,4 +59,23 @@ public class TodolistImpl implements TodolistService {
         return todoListRepository.findById(id)
                 .orElseThrow(() -> new ResourNotFound("Cannot find TodoList with id: " + id));
     }
+
+    @Override
+    public List<TodoList> getAll(Jwt jwt) {
+
+        String currentUserUUID = GetUserUUID.getUserUUID(jwt);
+
+        if (currentUserUUID.equals("null")) {
+            throw new ResourNotFound("User UUID not found in token");
+        }
+
+        if (todoListRepository.findByUuid(currentUserUUID).isEmpty()) {
+            throw new ResourNotFound("User UUID not found in database");
+        }
+
+
+
+
+        return List.of();
+    }
 }
