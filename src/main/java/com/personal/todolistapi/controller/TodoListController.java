@@ -50,6 +50,23 @@ public class TodoListController {
         );
     }
 
+    @PreAuthorize("hasRole('role_user')")
+    @PostMapping("/createTask/{id}")
+    public ResponseEntity<?> createTaskInTodoList(
+            @PathVariable Long id ,
+            @RequestBody TodolistRequest request ,
+            HttpServletRequest httpServletRequest
+    ) {
+        TodoList todoList = todolistService.createTast(id , request);
+        TodolistRespones respones = TodoListMapper.INSTANCE.mapToTodolistRespones(todoList);
+        return ResponseEntity.ok(
+                SuccessRespone.success(
+                        respones ,
+                        httpServletRequest
+                )
+        );
+    }
+
 
 
 }

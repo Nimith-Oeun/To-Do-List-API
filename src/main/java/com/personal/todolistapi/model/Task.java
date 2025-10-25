@@ -1,15 +1,18 @@
 package com.personal.todolistapi.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.personal.todolistapi.enums.Priority;
 import com.personal.todolistapi.enums.Status;
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.ToString;
 
 import java.util.Date;
 
 @Data
 @Entity
 @Table(name = "task")
+@ToString(exclude = "todoList")
 public class Task extends AuditEntity{
 
     @Id
@@ -24,7 +27,7 @@ public class Task extends AuditEntity{
 
     private Date dueDate;
 
-    private Boolean isCompleted;
+    private Boolean isCompleted = false;
 
     @Enumerated(EnumType.STRING)
     private Priority priority;
@@ -34,6 +37,7 @@ public class Task extends AuditEntity{
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "todo_list_id")
+    @JsonBackReference
     private TodoList todoList;
 
     private String uuid;

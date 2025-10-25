@@ -2,13 +2,13 @@ package com.personal.todolistapi.dto.respones;
 
 import lombok.Data;
 
-import java.util.Date;
-
 @Data
-public class TaskResones {
+public class TaskResonesInsideList {
 
     private Long id;
 
     private String title;
+
+    private Boolean Iscompleted;
 
 }

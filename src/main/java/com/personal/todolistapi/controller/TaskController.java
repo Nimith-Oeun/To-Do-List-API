@@ -1,9 +1,11 @@
 package com.personal.todolistapi.controller;
 
-import com.personal.todolistapi.dto.request.TaskRequest;
 import com.personal.todolistapi.dto.request.TaskRequestDTO;
 import com.personal.todolistapi.dto.request.TaskUpdateRequest;
+import com.personal.todolistapi.dto.respones.TaskRespones;
 import com.personal.todolistapi.exceptions.SuccessRespone;
+import com.personal.todolistapi.mapper.TaskMapper;
+import com.personal.todolistapi.model.Task;
 import com.personal.todolistapi.service.TaskService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -38,9 +40,11 @@ public class TaskController {
             @RequestBody TaskUpdateRequest request ,
             HttpServletRequest httpServletRequest
     ) {
+        Task update = taskService.update(id, request);
+        TaskRespones respones = TaskMapper.INSTANCE.mapToTaskRespones(update);
         return ResponseEntity.ok(
                 SuccessRespone.success(
-                        taskService.update(id , request),
+                        respones ,
                         httpServletRequest
                 ));
     }
@@ -72,17 +76,22 @@ public class TaskController {
     }
 
     @PreAuthorize("hasRole('role_user')")
-    @PostMapping("/createByListId")
-    public ResponseEntity<?> createTaskByListId(
-            @RequestParam Long listId ,
-            @RequestBody TaskRequest request ,
+    @PatchMapping("/updateIsCompleted/{id}")
+    public ResponseEntity<?> updateIsCompleted(
+            @PathVariable Long id ,
+            @RequestBody TaskUpdateRequest request ,
             HttpServletRequest httpServletRequest
     ) {
+
+        taskService.updateIsCompleted(id , request);
+
         return ResponseEntity.ok(
                 SuccessRespone.success(
-                        taskService.createTaskByListId(listId , request),
+                        "Update successfully" ,
                         httpServletRequest
                 ));
     }
+
+
 
 }

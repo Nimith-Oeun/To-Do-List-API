@@ -1,10 +1,9 @@
 package com.personal.todolistapi.service.impl;
 
-import com.personal.todolistapi.dto.request.TaskRequest;
 import com.personal.todolistapi.dto.request.TaskRequestDTO;
 import com.personal.todolistapi.dto.request.TaskUpdateRequest;
-import com.personal.todolistapi.dto.respones.TaskResones;
 import com.personal.todolistapi.dto.respones.TaskRespones;
+import com.personal.todolistapi.exceptions.BadRequestException;
 import com.personal.todolistapi.exceptions.ResourNotFound;
 import com.personal.todolistapi.mapper.TaskMapper;
 import com.personal.todolistapi.model.Task;
@@ -18,7 +17,6 @@ import org.springframework.security.oauth2.server.resource.authentication.JwtAut
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @Slf4j
@@ -80,28 +78,31 @@ public class TaskServiceIml implements TaskService {
 
     @Override
     public List<TaskRespones> getAllTask() {
+
         return taskRepository.findAll().stream()
-                .map(taskMapper::mapToTaskRespones)
+                .map(resppones -> {
+                    TaskRespones respone = TaskMapper.INSTANCE.mapToTaskRespones(resppones);
+                    respone.setListTitle(
+                            resppones.getTodoList().getName()
+                    );
+                    return respone;
+                })
                 .toList();
     }
 
     @Override
-    public TaskResones createTaskByListId(Long listId, TaskRequest request) {
+    public Task updateIsCompleted(Long id , TaskUpdateRequest request) {
 
-        Optional<Task> todoList = taskRepository.findByTodoList(listId);
+        Task task = getById(id);
 
-        if (todoList.isEmpty()) {
-            throw new ResourNotFound("Task not found with id: " + listId);
+        Boolean isCompleted = request.getIsCompleted();
+        if (isCompleted == null) {
+            throw new BadRequestException("isCompleted field cannot be null");
         }
 
-        Task createdTask = new Task();
+        task.setIsCompleted(isCompleted);
 
-        createdTask.setTitle(request.getTitle());
-
-        Task savedTask = taskRepository.save(createdTask);
-
-        return   TaskMapper.INSTANCE.mapToTaskResones(savedTask)
-;
+        return taskRepository.save(task);
     }
 
     @Override

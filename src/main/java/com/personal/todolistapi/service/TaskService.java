@@ -1,9 +1,7 @@
 package com.personal.todolistapi.service;
 
-import com.personal.todolistapi.dto.request.TaskRequest;
 import com.personal.todolistapi.dto.request.TaskRequestDTO;
 import com.personal.todolistapi.dto.request.TaskUpdateRequest;
-import com.personal.todolistapi.dto.respones.TaskResones;
 import com.personal.todolistapi.dto.respones.TaskRespones;
 import com.personal.todolistapi.model.Task;
 
@@ -19,7 +17,7 @@ public interface TaskService {
 
     List<TaskRespones> getAllTask();
 
-    TaskResones createTaskByListId(Long listId, TaskRequest request);
+    Task updateIsCompleted(Long id , TaskUpdateRequest request);
 
     void delete(Long id);
 

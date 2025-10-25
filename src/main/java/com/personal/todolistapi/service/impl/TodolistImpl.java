@@ -3,6 +3,7 @@ package com.personal.todolistapi.service.impl;
 import com.personal.todolistapi.common.GetUserUUID;
 import com.personal.todolistapi.dto.request.TodolistRequest;
 import com.personal.todolistapi.dto.respones.TodolistRespones;
+import com.personal.todolistapi.exceptions.BadRequestException;
 import com.personal.todolistapi.exceptions.ResourNotFound;
 import com.personal.todolistapi.mapper.TodoListMapper;
 import com.personal.todolistapi.model.Task;
@@ -14,9 +15,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @Slf4j
@@ -73,8 +74,46 @@ public class TodolistImpl implements TodolistService {
             throw new ResourNotFound("User UUID not found in database");
         }
 
+//        return allByUuid.stream()
+//                .map(TodoListMapper.INSTANCE::mapToTodolistRespones)
+//                .toList();
+
+        /**
+         * this logic for show isCompleted field when get all todo list
+         */
+
         return allByUuid.stream()
-                .map(TodoListMapper.INSTANCE::mapToTodolistRespones)
+                .map(rp-> {
+                    TodolistRespones response = todoListMapper.mapToTodolistRespones(rp);
+                    if (response.getTasks() != null) {
+                        response.getTasks().forEach(taskResponse -> {
+                            boolean isCompleted = rp.getTasks().stream()
+                                    .filter(t -> t.getId().equals(taskResponse.getId()))
+                                    .findFirst()
+                                    .map(Task::getIsCompleted)
+                                    .orElse(false);
+
+                            taskResponse.setIscompleted(isCompleted);
+                        });
+                    }
+
+                    return response;
+                })
                 .toList();
+    }
+
+    @Override
+    public TodoList createTast(Long id, TodolistRequest request) {
+
+        TodoList todoList = getById(id);
+
+        if (request.getTasks() == null || request.getTasks().isEmpty()) {
+            throw new BadRequestException("Task list cannot be empty");
+        }
+
+        todoList.setTasks(request.getTasks());
+        todoList.getTasks().forEach(task -> task.setTodoList(todoList));
+
+        return todoListRepository.save(todoList);
     }
 }

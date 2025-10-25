@@ -1,7 +1,7 @@
 package com.personal.todolistapi.mapper;
 
 import com.personal.todolistapi.dto.request.TaskRequestDTO;
-import com.personal.todolistapi.dto.respones.TaskResones;
+import com.personal.todolistapi.dto.respones.TaskResonesInsideList;
 import com.personal.todolistapi.dto.respones.TaskRespones;
 import com.personal.todolistapi.model.Task;
 import org.mapstruct.Mapper;
@@ -17,5 +17,5 @@ public interface TaskMapper {
 
    TaskRespones mapToTaskRespones(Task task);
 
-   TaskResones mapToTaskResones (Task task);
+   TaskResonesInsideList mapToTaskResones (Task task);
 }

@@ -1,7 +1,9 @@
 package com.personal.todolistapi.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.ToString;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,6 +11,7 @@ import java.util.List;
 @Data
 @Entity
 @Table(name = "todo_list")
+@ToString(exclude = "tasks")
 public class TodoList extends AuditEntity{
 
     @Id
@@ -30,5 +33,6 @@ public class TodoList extends AuditEntity{
             mappedBy = "todoList",
             cascade = CascadeType.ALL
     )
+    @JsonManagedReference
     private List<Task> tasks = new ArrayList<>();
 }

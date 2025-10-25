@@ -27,4 +27,6 @@ public class TaskRespones {
 
     private Status status;
 
+    private String listTitle;
+
 }

@@ -11,6 +11,11 @@ import java.util.List;
 public interface TodolistService {
 
     TodolistRespones create(TodolistRequest request , Jwt jwt);
+
     TodoList getById(Long id);
+
     List<TodolistRespones> getAll(Jwt jwt);
+
+    TodoList createTast(Long id , TodolistRequest request);
+
 }
