@@ -27,7 +27,7 @@ public class GlobalException {
                 .status("BAD_REQUEST")
                 .message(e.getMessage())
                 .timestamp(LocalDateTime.now())
-                .responeData(new EmptyRespone())
+                .data(new EmptyRespone())
                 .build();
         return ResponseEntity.status(400).body(errorResponse);
     }
@@ -39,7 +39,7 @@ public class GlobalException {
                 .status("INTERNAL_SERVER_ERROR")
                 .message(e.getMessage())
                 .timestamp(LocalDateTime.now())
-                .responeData(new EmptyRespone())
+                .data(new EmptyRespone())
                 .build();
         return ResponseEntity.status(500).body(errorResponse);
     }
@@ -52,7 +52,7 @@ public class GlobalException {
                 .status("NOT_FOUND")
                 .message(e.getMessage())
                 .timestamp(LocalDateTime.now())
-                .responeData(new EmptyRespone())
+                .data(new EmptyRespone())
                 .build();
         return ResponseEntity.status(404).body(errorResponse);
 
@@ -65,7 +65,7 @@ public class GlobalException {
                 .errorCode("413")
                 .status("REQUEST_ENTITY_TOO_LARGE")
                 .message(e.getMessage())
-                .responeData(new EmptyRespone())
+                .data(new EmptyRespone())
                 .build();
         return ResponseEntity.status(413).body(errorResponse);
     }

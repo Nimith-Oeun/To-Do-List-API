@@ -28,6 +28,4 @@ public class Background {
     @Column(name = "Part_Upload")
     private String partUpload;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    private TodoList todoList;
 }

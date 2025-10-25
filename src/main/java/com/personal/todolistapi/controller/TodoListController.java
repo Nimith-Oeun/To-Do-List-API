@@ -1,15 +1,20 @@
 package com.personal.todolistapi.controller;
 
 import com.personal.todolistapi.dto.request.TodolistRequest;
+import com.personal.todolistapi.dto.respones.TodolistRespones;
 import com.personal.todolistapi.exceptions.SuccessRespone;
+import com.personal.todolistapi.mapper.TodoListMapper;
+import com.personal.todolistapi.model.TodoList;
 import com.personal.todolistapi.service.TodolistService;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.jwt.Jwt;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/todolists")
@@ -18,10 +23,33 @@ public class TodoListController {
 
     private final TodolistService todolistService;
 
+    @PreAuthorize("hasRole('role_user')")
     @PostMapping("/create")
-    public ResponseEntity<?> createTodoList(@RequestBody TodolistRequest request , Jwt jwt) {
+    public ResponseEntity<?> createTodoList(
+            @RequestBody TodolistRequest request ,
+            @AuthenticationPrincipal Jwt jwt ,
+            HttpServletRequest httpServletRequest
+    ) {
         return ResponseEntity.ok(
-                SuccessRespone.success(todolistService.create(request , jwt))
+                SuccessRespone.success(todolistService.create(request , jwt) ,httpServletRequest )
         );
     }
+
+
+    @PreAuthorize("hasRole('role_user')")
+    @GetMapping("/getList")
+    public ResponseEntity<?> getTodoList(@AuthenticationPrincipal Jwt jwt ,
+                                         HttpServletRequest httpServletRequest
+    ) {
+
+        return ResponseEntity.ok(
+                SuccessRespone.success(
+                        todolistService.getAll(jwt) ,
+                        httpServletRequest
+                )
+        );
+    }
+
+
+
 }

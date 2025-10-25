@@ -5,7 +5,7 @@ import lombok.Data;
 import java.util.List;
 
 @Data
-public class TodolistRespones {
+public class listRespones {
 
     private Long id;
 
@@ -17,7 +17,7 @@ public class TodolistRespones {
 
     private Integer background;
 
-    private String uuid;
+    private String UUID;
 
-    private List<TaskResones> tasks;
+    private List<TaskRespones> tasks;
 }

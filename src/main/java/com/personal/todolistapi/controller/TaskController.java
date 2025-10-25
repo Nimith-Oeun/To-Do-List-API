@@ -2,9 +2,8 @@ package com.personal.todolistapi.controller;
 
 import com.personal.todolistapi.dto.request.TaskRequest;
 import com.personal.todolistapi.dto.request.TaskRequestDTO;
+import com.personal.todolistapi.dto.request.TaskUpdateRequest;
 import com.personal.todolistapi.exceptions.SuccessRespone;
-import com.personal.todolistapi.mapper.TaskMapper;
-import com.personal.todolistapi.model.Task;
 import com.personal.todolistapi.service.TaskService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -21,24 +20,69 @@ public class TaskController {
 
     @PreAuthorize("hasRole('role_user')")
     @PostMapping("/create")
-    public ResponseEntity<?> createTask(@RequestBody TaskRequest request) {
+    public ResponseEntity<?> createTask(
+            @RequestBody TaskRequestDTO request ,
+            HttpServletRequest httpServletRequest
+    ) {
         return ResponseEntity.ok(
                 SuccessRespone.success(
-                        taskService.create(request)
+                        taskService.create(request),
+                        httpServletRequest
                 ));
     }
 
     @PreAuthorize("hasRole('role_user')")
-    @PostMapping("/update/{id}")
+    @PutMapping("/udate/{id}")
     public ResponseEntity<?> updateTask(
-            @PathVariable("id") Long id,
-            @RequestBody TaskRequestDTO request,
+            @PathVariable Long id ,
+            @RequestBody TaskUpdateRequest request ,
             HttpServletRequest httpServletRequest
     ) {
-        Task update = taskService.update(id, request);
-        TaskMapper.INSTANCE.mapToTaskResones(update);
         return ResponseEntity.ok(
-                SuccessRespone.success(update)
-        );
+                SuccessRespone.success(
+                        taskService.update(id , request),
+                        httpServletRequest
+                ));
     }
+
+    @PreAuthorize("hasRole('role_user')")
+    @PostMapping("/delete/{id}")
+    public ResponseEntity<?> deleteTask(
+            @PathVariable Long id ,
+            HttpServletRequest httpServletRequest
+    ) {
+        taskService.delete(id);
+        return ResponseEntity.ok(
+                SuccessRespone.success(
+                        "Delete task successfully" ,
+                        httpServletRequest
+                ));
+    }
+
+    @PreAuthorize("hasRole('role_user')")
+    @GetMapping("/getAllTask")
+    public ResponseEntity<?> getAllTask(
+            HttpServletRequest httpServletRequest
+    ) {
+        return ResponseEntity.ok(
+                SuccessRespone.success(
+                        taskService.getAllTask(),
+                        httpServletRequest
+                ));
+    }
+
+    @PreAuthorize("hasRole('role_user')")
+    @PostMapping("/createByListId")
+    public ResponseEntity<?> createTaskByListId(
+            @RequestParam Long listId ,
+            @RequestBody TaskRequest request ,
+            HttpServletRequest httpServletRequest
+    ) {
+        return ResponseEntity.ok(
+                SuccessRespone.success(
+                        taskService.createTaskByListId(listId , request),
+                        httpServletRequest
+                ));
+    }
+
 }

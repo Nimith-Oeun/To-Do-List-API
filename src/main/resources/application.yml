@@ -10,7 +10,7 @@ spring:
     name: to-do list API
 
   profiles:
-    active: qa
+    active: dev
 
   # Database configuration
   datasource:
@@ -19,7 +19,7 @@ spring:
     password: "${MyServer.Database.PASS}"
   jpa:
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: update
     show-sql: true
     properties:
       hibernate:

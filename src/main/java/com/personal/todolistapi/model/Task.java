@@ -35,4 +35,6 @@ public class Task extends AuditEntity{
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "todo_list_id")
     private TodoList todoList;
+
+    private String uuid;
 }

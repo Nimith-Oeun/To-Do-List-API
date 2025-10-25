@@ -1,34 +1,30 @@
-package com.personal.todolistapi.dto.request;
+package com.personal.todolistapi.dto.respones;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.personal.todolistapi.enums.Priority;
 import com.personal.todolistapi.enums.Status;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import lombok.Data;
 
 import java.util.Date;
 
 @Data
-public class TaskRequestDTO {
+public class TaskRespones {
 
-    @JsonProperty("title")
+    private Long id;
+
     private String title;
 
-    @JsonProperty("Step")
     private String Step;
 
-    @JsonProperty("description")
     private String description;
 
-    @JsonProperty("dueDate")
     private Date dueDate;
 
-    @JsonProperty("isCompleted")
     private Boolean isCompleted;
 
-    @JsonProperty("priority")
     private Priority priority;
 
-    @JsonProperty("status")
     private Status status;
 
 }

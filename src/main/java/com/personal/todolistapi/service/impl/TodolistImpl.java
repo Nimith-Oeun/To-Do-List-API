@@ -16,6 +16,7 @@ import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Slf4j
@@ -39,24 +40,41 @@ public class TodolistImpl implements TodolistService {
         TodoList mappedTodoList = todoListMapper.mapToTodoList(request);
         mappedTodoList.setUuid(userUuid);
 
+        // Ensure child relationship consistency
+        if (mappedTodoList.getTasks() != null) {
+            mappedTodoList.getTasks().forEach(task ->
+                    task.setTodoList(mappedTodoList)
+            );
+        }
+
         TodoList savedTodoList = todoListRepository.save(mappedTodoList);
 
-        List<Task> taskList = request.getTasks().stream()
-                .map(taskrq -> {
-                    Task task = new Task();
-                    task.setTitle(taskrq.getTitle());
-                    return task;
-                })
-                .toList();
-        taskRepository.saveAll(taskList);
-
-
         return todoListMapper.mapToTodolistRespones(savedTodoList);
+
     }
 
     @Override
     public TodoList getById(Long id) {
         return todoListRepository.findById(id)
                 .orElseThrow(() -> new ResourNotFound("Cannot find TodoList with id: " + id));
+    }
+
+    @Override
+    public List<TodolistRespones> getAll(Jwt jwt) {
+
+        String currentUserUUID = GetUserUUID.getUserUUID(jwt);
+        List<TodoList> allByUuid = todoListRepository.findAllByUuid(currentUserUUID);
+
+        if (currentUserUUID.equals("null")) {
+            throw new ResourNotFound("User UUID not found in token");
+        }
+
+        if (allByUuid.isEmpty()) {
+            throw new ResourNotFound("User UUID not found in database");
+        }
+
+        return allByUuid.stream()
+                .map(TodoListMapper.INSTANCE::mapToTodolistRespones)
+                .toList();
     }
 }
