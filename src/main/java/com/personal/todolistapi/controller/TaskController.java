@@ -8,9 +8,12 @@ import com.personal.todolistapi.mapper.TaskMapper;
 import com.personal.todolistapi.model.Task;
 import com.personal.todolistapi.service.TaskService;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -23,6 +26,7 @@ public class TaskController {
     @PreAuthorize("hasRole('role_user')")
     @PostMapping("/create")
     public ResponseEntity<?> createTask(
+            @Valid
             @RequestBody TaskRequestDTO request ,
             HttpServletRequest httpServletRequest
     ) {
@@ -36,6 +40,7 @@ public class TaskController {
     @PreAuthorize("hasRole('role_user')")
     @PutMapping("/udate/{id}")
     public ResponseEntity<?> updateTask(
+            @Valid
             @PathVariable Long id ,
             @RequestBody TaskUpdateRequest request ,
             HttpServletRequest httpServletRequest
@@ -66,11 +71,12 @@ public class TaskController {
     @PreAuthorize("hasRole('role_user')")
     @GetMapping("/getAllTask")
     public ResponseEntity<?> getAllTask(
+            @AuthenticationPrincipal Jwt jwt ,
             HttpServletRequest httpServletRequest
     ) {
         return ResponseEntity.ok(
                 SuccessRespone.success(
-                        taskService.getAllTask(),
+                        taskService.getAllTask(jwt),
                         httpServletRequest
                 ));
     }

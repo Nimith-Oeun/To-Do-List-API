@@ -3,6 +3,7 @@ package com.personal.todolistapi.dto.request;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.personal.todolistapi.enums.Priority;
 import com.personal.todolistapi.enums.Status;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
 import java.util.Date;
@@ -11,6 +12,9 @@ import java.util.Date;
 public class TaskRequestDTO {
 
     @JsonProperty("title")
+    @NotBlank(
+            message = "Title must not be blank"
+    )
     private String title;
 
     @JsonProperty("Step")

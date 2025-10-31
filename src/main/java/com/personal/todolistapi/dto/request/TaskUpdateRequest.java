@@ -5,6 +5,7 @@ import com.personal.todolistapi.enums.Priority;
 import com.personal.todolistapi.enums.Status;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
 import java.util.Date;
@@ -13,6 +14,9 @@ import java.util.Date;
 public class TaskUpdateRequest {
 
     @JsonProperty("title")
+    @NotBlank(
+            message = "Title must not be blank"
+    )
     private String title;
 
     @JsonProperty("step")

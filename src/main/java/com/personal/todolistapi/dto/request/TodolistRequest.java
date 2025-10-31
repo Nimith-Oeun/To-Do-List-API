@@ -3,6 +3,7 @@ package com.personal.todolistapi.dto.request;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.personal.todolistapi.model.Background;
 import com.personal.todolistapi.model.Task;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
 import java.util.List;
@@ -11,6 +12,9 @@ import java.util.List;
 public class TodolistRequest {
 
     @JsonProperty("name")
+    @NotBlank(
+            message = "Name must not be blank"
+    )
     private String name;
 
     @JsonProperty("icon")

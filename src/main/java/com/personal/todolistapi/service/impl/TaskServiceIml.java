@@ -1,5 +1,6 @@
 package com.personal.todolistapi.service.impl;
 
+import com.personal.todolistapi.common.GetUserUUID;
 import com.personal.todolistapi.dto.request.TaskRequestDTO;
 import com.personal.todolistapi.dto.request.TaskUpdateRequest;
 import com.personal.todolistapi.dto.respones.TaskRespones;
@@ -77,13 +78,16 @@ public class TaskServiceIml implements TaskService {
     }
 
     @Override
-    public List<TaskRespones> getAllTask() {
+    public List<TaskRespones> getAllTask(Jwt jwt) {
+
+        String userUUID = GetUserUUID.getUserUUID(jwt);
 
         return taskRepository.findAll().stream()
-                .map(resppones -> {
-                    TaskRespones respone = TaskMapper.INSTANCE.mapToTaskRespones(resppones);
+                .filter(task -> task.getTodoList().getUuid().equals(userUUID) )
+                .map(response -> {
+                    TaskRespones respone = TaskMapper.INSTANCE.mapToTaskRespones(response);
                     respone.setListTitle(
-                            resppones.getTodoList().getName()
+                            response.getTodoList().getName()
                     );
                     return respone;
                 })

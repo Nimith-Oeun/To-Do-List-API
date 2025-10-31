@@ -10,7 +10,7 @@ spring:
     name: to-do list API
 
   profiles:
-    active: qa
+    active: dev
 
   # Database configuration
   datasource:

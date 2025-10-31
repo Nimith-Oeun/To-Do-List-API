@@ -7,6 +7,7 @@ import com.personal.todolistapi.mapper.TodoListMapper;
 import com.personal.todolistapi.model.TodoList;
 import com.personal.todolistapi.service.TodolistService;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -26,6 +27,7 @@ public class TodoListController {
     @PreAuthorize("hasRole('role_user')")
     @PostMapping("/create")
     public ResponseEntity<?> createTodoList(
+            @Valid
             @RequestBody TodolistRequest request ,
             @AuthenticationPrincipal Jwt jwt ,
             HttpServletRequest httpServletRequest
@@ -53,6 +55,7 @@ public class TodoListController {
     @PreAuthorize("hasRole('role_user')")
     @PostMapping("/createTask/{id}")
     public ResponseEntity<?> createTaskInTodoList(
+            @Valid
             @PathVariable Long id ,
             @RequestBody TodolistRequest request ,
             HttpServletRequest httpServletRequest
